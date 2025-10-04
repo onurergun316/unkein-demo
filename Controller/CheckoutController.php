@@ -1,7 +1,11 @@
 <?php
 // Controller/CheckoutController.php
-
 declare(strict_types=1);
+
+require_once __DIR__ . '/../Model/OrderRepository.php';
+require_once __DIR__ . '/../Model/ProductRepository.php';
+require_once __DIR__ . '/../Model/Cart.php';
+require_once __DIR__ . '/../Model/CartItem.php';
 
 class CheckoutController extends BaseController
 {
@@ -12,23 +16,20 @@ class CheckoutController extends BaseController
             header('Location: /?url=cart/index');
             exit;
         }
-
         $this->render('Checkout/index', ['cart' => $cart]);
     }
 
     public function placeOrder(): void
     {
-        // In this phase, we just mock the order placement.
-        // Expect POST: name, email, address
-        $name = trim($_POST['name'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $address = trim($_POST['address'] ?? '');
-
         $cart = $this->getCart();
         if ($cart->isEmpty()) {
             header('Location: /?url=cart/index');
             exit;
         }
+
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $address = trim($_POST['address'] ?? '');
 
         if ($name === '' || $email === '' || $address === '') {
             http_response_code(400);
@@ -36,20 +37,19 @@ class CheckoutController extends BaseController
             return;
         }
 
-        // Generate a mock order number
-        $orderNo = 'UK' . date('YmdHis') . rand(100, 999);
-
-        // In DB phase we will persist it; for now, just clear cart and show confirm
-        $total = $cart->total();
-        $items = $cart->items();
+        $repo = new OrderRepository();
+        $orderId = $repo->create(
+            ['name' => $name, 'email' => $email, 'address' => $address],
+            $cart
+        );
 
         // Clear the cart
         $_SESSION['cart'] = serialize(new Cart());
 
         $this->render('Checkout/confirm', [
-            'orderNo' => $orderNo,
-            'total'   => $total,
-            'items'   => $items,
+            'orderNo' => 'UK' . str_pad((string)$orderId, 6, '0', STR_PAD_LEFT),
+            'total'   => number_format($cart->totalCents() / 100, 2) . ' €',
+            'items'   => [], // we just show static lines in confirm, optional
             'name'    => $name,
             'email'   => $email,
             'address' => $address,
