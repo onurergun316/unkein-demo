@@ -1,31 +1,58 @@
 <?php
 // Model/ProductRepository.php
-// In Phase 2 (DB) we'll swap this for MySQL.
-// For now: static in-memory product catalog.
 
 declare(strict_types=1);
+
+require_once __DIR__ . '/Database.php';
+require_once __DIR__ . '/Product.php';
 
 class ProductRepository
 {
     /** @return Product[] */
     public function all(): array
     {
-        return array_values($this->seed());
+        $pdo = Database::pdo();
+        $stmt = $pdo->query("SELECT id, name, price, image FROM products ORDER BY id ASC");
+        $rows = $stmt->fetchAll();
+
+        $products = [];
+        foreach ($rows as $row) {
+            $products[] = $this->mapRowToProduct($row);
+        }
+        return $products;
     }
 
     public function findById(string $id): ?Product
     {
-        $all = $this->seed();
-        return $all[$id] ?? null;
+        $pdo = Database::pdo();
+        $stmt = $pdo->prepare("SELECT id, name, price, image FROM products WHERE id = ?");
+        $stmt->execute([(int)$id]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            return null;
+        }
+        return $this->mapRowToProduct($row);
     }
 
-    /** @return array<string, Product> */
-    private function seed(): array
+    /** @param array<string,mixed> $row */
+    private function mapRowToProduct(array $row): Product
     {
-        return [
-            'p1' => new Product('p1', 'Unkein Hoodie',  'unkein-hoodie', 4999, '/img/hoodie.jpg', 'hoodies', 10),
-            'p2' => new Product('p2', 'Unkein T-Shirt', 'unkein-tee',    2499, '/img/tshirt.jpg', 'shirts',  25),
-            'p3' => new Product('p3', 'Unkein Cap',     'unkein-cap',    1799, '/img/cap.jpg',    'caps',    15),
-        ];
+        $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', (string)$row['name']), '-'));
+        $priceCents = (int)round(((float)$row['price']) * 100);
+
+        $image = $row['image'] ?? '';
+        if ($image !== '' && strpos($image, '/img/') !== 0) {
+            $image = '/img/' . ltrim($image, '/');
+        }
+
+        return new Product(
+            (string)$row['id'],
+            (string)$row['name'],
+            $slug,
+            $priceCents,
+            $image !== '' ? $image : '/img/placeholder.jpg',
+            'default',
+            10
+        );
     }
 }
