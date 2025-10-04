@@ -1,0 +1,16 @@
+# macOS system files
+.DS_Store
+
+# Node / Sass stuff
+node_modules/
+public/css/*.map
+
+# PHP / composer cache (in case you add later)
+vendor/
+composer.lock
+
+# Logs
+*.log
+
+# Environment files (important for secrets later)
+.env
