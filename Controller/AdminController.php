@@ -157,24 +157,39 @@ class AdminController extends BaseController
     /** Returns stored filename under /uploads or '' if none */
     private function handleUpload(): string
     {
-        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+        // No file selected
+        if (!isset($_FILES['image']) || $_FILES['image']['error'] === UPLOAD_ERR_NO_FILE) {
             return '';
         }
+
+        // Any other upload error
+        if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            return '';
+        }
+
         $tmp  = $_FILES['image']['tmp_name'];
         $orig = basename($_FILES['image']['name']);
         $ext  = strtolower(pathinfo($orig, PATHINFO_EXTENSION));
-        if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif'], true)) {
+
+        if (!in_array($ext, ['jpg','jpeg','png','gif'], true)) {
             return '';
         }
-        $targetDir = dirname(__DIR__) . '/public/uploads';
+
+        // Save into public/img (same folder as your existing images)
+        $targetDir = dirname(__DIR__) . '/public/img';
         if (!is_dir($targetDir)) {
             @mkdir($targetDir, 0775, true);
         }
-        $fname = uniqid('p_', true) . '.' . $ext;
-        $dest  = $targetDir . '/' . $fname;
+
+        // Use a generated filename to avoid collisions
+        $filename = uniqid('p_', true) . '.' . $ext;
+        $dest     = $targetDir . '/' . $filename;
+
         if (!move_uploaded_file($tmp, $dest)) {
             return '';
         }
-        return '/uploads/' . $fname;
+
+        // IMPORTANT: return only the filename. The repository will prefix /img/
+        return $filename;
     }
 }
