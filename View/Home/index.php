@@ -1,22 +1,17 @@
-<?php
-// View/Home/index.php
-// Variables available: $products (Product[])
-?>
-<h2>Welcome</h2>
-<p>Browse our latest products below:</p>
+<?php include __DIR__ . '/../Layout/header.php'; ?>
 
-<section>
-    <?php if (!empty($products)): ?>
-        <ul>
-            <?php foreach ($products as $p): ?>
-                <li>
-                    <strong><?php echo htmlspecialchars($p->name); ?></strong>
-                    — <?php echo $p->priceFormatted(); ?>
-                    — <a href="/?url=product/show/<?php echo urlencode($p->id); ?>">View</a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>No products yet.</p>
-    <?php endif; ?>
-</section>
+<main>
+    <h1>Welcome</h1>
+    <p>Browse our latest products below:</p>
+    <ul>
+        <?php foreach ($products as $product): ?>
+            <li>
+                <?= htmlspecialchars($product->name) ?> –
+                <?= htmlspecialchars($product->priceFormatted()) ?>
+                — <a href="/?url=product/show/<?= $product->id ?>">View</a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</main>
+
+<?php include __DIR__ . '/../Layout/footer.php'; ?>

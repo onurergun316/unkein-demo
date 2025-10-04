@@ -3,15 +3,14 @@
 
 declare(strict_types=1);
 
-class HomeController extends BaseController
+require_once __DIR__ . '/../Model/ProductRepository.php';
+
+class HomeController
 {
     public function index(): void
     {
         $repo = new ProductRepository();
         $products = $repo->all();
-
-        $this->render('Home/index', [
-            'products' => $products,
-        ]);
+        include __DIR__ . '/../View/Home/index.php';
     }
 }
