@@ -1,0 +1,45 @@
+// assets/sass/_layout.scss
+header {
+  background: $panel; border-bottom: 1px solid #222734;
+}
+header .inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 16px 0;
+}
+.brand { font-weight: 800; letter-spacing: .5px; }
+nav a { margin-right: 14px; }
+nav a:last-child { margin-right: 0; }
+
+main { padding: 24px 0; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: $panel; border: 1px solid #222734; border-radius: $radius;
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.card .thumb { background: #0c0f14; height: 180px; display: grid; place-items: center; }
+.card .body { padding: 12px; display: grid; gap: 6px; }
+.card .name { font-weight: 700; }
+.card .price { color: $muted; }
+
+.product-detail {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px;
+}
+@media (max-width: 800px) {
+  .product-detail { grid-template-columns: 1fr; }
+}
+
+.cart-actions { display: flex; gap: 8px; align-items: center; }
+.qty {
+  display: inline-flex; align-items: stretch; gap: 6px;
+}
+.qty .btn { padding: 8px 10px; }
+
+footer {
+  background: $panel; border-top: 1px solid #222734; color: $muted;
+}
+footer .inner { padding: 16px 0; }
