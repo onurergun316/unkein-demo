@@ -1,11 +1,22 @@
 <?php
 // View/Home/index.php
+// Variables available: $products (Product[])
 ?>
+<h2>Welcome</h2>
+<p>Browse our latest products below:</p>
 
-<?php require __DIR__ . '/../layout/header.php'; ?>
-
-<h2>Welcome to Unkein Demo Shop</h2>
-<p>This is the home page of our demo e-commerce app. 
-Here you’ll soon see products, a shopping cart, and more features.</p>
-
-<?php require __DIR__ . '/../layout/footer.php'; ?>
+<section>
+    <?php if (!empty($products)): ?>
+        <ul>
+            <?php foreach ($products as $p): ?>
+                <li>
+                    <strong><?php echo htmlspecialchars($p->name); ?></strong>
+                    — <?php echo $p->priceFormatted(); ?>
+                    — <a href="/?url=product/show/<?php echo urlencode($p->id); ?>">View</a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No products yet.</p>
+    <?php endif; ?>
+</section>

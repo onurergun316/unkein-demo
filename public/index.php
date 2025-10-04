@@ -1,11 +1,20 @@
 <?php
 // public/index.php
 
-// Simple autoload (will grow later)
+declare(strict_types=1);
+
+session_start();
+
+// Absolute project root
+define('BASE_PATH', dirname(__DIR__));
+
+// Simple autoloader for Controller/ and Model/
 spl_autoload_register(function ($class) {
-    $paths = ['../Controller/', '../Model/'];
-    foreach ($paths as $path) {
-        $file = $path . $class . '.php';
+    $paths = [
+        BASE_PATH . '/Controller/' . $class . '.php',
+        BASE_PATH . '/Model/' . $class . '.php',
+    ];
+    foreach ($paths as $file) {
         if (file_exists($file)) {
             require_once $file;
             return;
@@ -13,19 +22,37 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// Basic routing (for now just ?url=controller/action)
-$url = isset($_GET['url']) ? explode('/', $_GET['url']) : ['Home', 'index'];
+// Basic router: ?url=controller/action/param
+$url = $_GET['url'] ?? 'home/index';
+$parts = array_values(array_filter(explode('/', $url)));
 
-$controllerName = ucfirst($url[0]) . 'Controller';
-$actionName = $url[1] ?? 'index';
+$controllerName = ucfirst($parts[0] ?? 'home') . 'Controller';
+$action = $parts[1] ?? 'index';
+$param = $parts[2] ?? null;
 
-if (class_exists($controllerName)) {
-    $controller = new $controllerName();
-    if (method_exists($controller, $actionName)) {
-        $controller->$actionName();
-    } else {
-        echo "Action '$actionName' not found.";
-    }
-} else {
-    echo "Controller '$controllerName' not found.";
+// Resolve and dispatch
+$controllerFile = BASE_PATH . '/Controller/' . $controllerName . '.php';
+if (!file_exists($controllerFile)) {
+    http_response_code(404);
+    echo "Controller file not found: $controllerName";
+    exit;
 }
+
+require_once $controllerFile;
+
+if (!class_exists($controllerName)) {
+    http_response_code(500);
+    echo "Controller class not found: $controllerName";
+    exit;
+}
+
+$controller = new $controllerName();
+
+if (!method_exists($controller, $action)) {
+    http_response_code(404);
+    echo "Action not found: $controllerName::$action";
+    exit;
+}
+
+// Call controller action
+$param !== null ? $controller->$action($param) : $controller->$action();
