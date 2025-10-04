@@ -1,0 +1,43 @@
+// assets/sass/_base.scss
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: $font-stack;
+  background: $bg;
+  color: $text;
+  line-height: 1.5;
+}
+a { color: $accent-2; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; display: block; }
+
+.container {
+  width: 100%;
+  max-width: $maxw;
+  margin: 0 auto;
+  padding: 0 $space;
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 10px 14px; border: 0; border-radius: $radius;
+  background: $accent; color: white; cursor: pointer; font-weight: 600;
+  transition: transform .06s ease, filter .2s ease, background .2s ease;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(1px); }
+.btn.secondary { background: $panel-2; color: $text; }
+.btn.ghost { background: transparent; border: 1px solid #2a2f3a; color: $text; }
+
+.input, textarea, select {
+  width: 100%; padding: 10px 12px; border-radius: $radius; border: 1px solid #2a2f3a;
+  background: #0c0f14; color: $text; outline: none;
+}
+label { display: block; margin-bottom: 6px; color: $muted; }
+
+.table {
+  width: 100%; border-collapse: collapse; background: $panel; border-radius: $radius; overflow: hidden;
+}
+.table th, .table td { padding: 12px; border-bottom: 1px solid #222734; text-align: left; }
+.table th { background: $panel-2; color: $muted; font-weight: 600; }
