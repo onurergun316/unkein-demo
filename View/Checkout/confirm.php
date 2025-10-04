@@ -1,29 +1,63 @@
 <?php
+// -----------------------------------------------------------
 // View/Checkout/confirm.php
-// Variables provided by controller:
-// $orderNo (string), $total (string), $items (CartItem[]), $name (string), $email (string), $address (string)
+// -----------------------------------------------------------
+// PURPOSE:
+//   This page is displayed immediately after a successful checkout.
+//   It confirms to the customer that their order has been placed.
+//
+// DATA PROVIDED BY CONTROLLER (CheckoutController::placeOrder()):
+//   $orderNo → Formatted order number (e.g. "UK000123")
+//   $total   → Total order cost as formatted string ("39.99 €")
+//   $items   → Array of CartItem objects (optional visual confirmation)
+//   $name, $email, $address → Customer contact and shipping details
+//
+// ROLE IN BIG PICTURE:
+//   - Represents the final step of the customer journey
+//   - Provides reassurance and confirmation of order completion
+//   - Demonstrates integration between checkout logic (model + controller)
+//     and front-end presentation (view layer).
+// -----------------------------------------------------------
 ?>
 
 <h2>Thank you for your order!</h2>
 
-<p>Your order number is <strong><?php echo htmlspecialchars($orderNo); ?></strong>.</p>
-<p>Total (demo): <strong><?php echo htmlspecialchars($total); ?></strong></p>
-
-<h3>Shipping To</h3>
+<!-- Confirmation section -->
 <p>
-    <?php echo nl2br(htmlspecialchars($name . "\n" . $address)); ?><br>
-    Email: <?php echo htmlspecialchars($email); ?>
+  Your order number is 
+  <strong><?= htmlspecialchars($orderNo); ?></strong>.
 </p>
 
+<!-- Display total -->
+<p>
+  Total (demo): 
+  <strong><?= htmlspecialchars($total); ?></strong>
+</p>
+
+<!-- Shipping address section -->
+<h3>Shipping To</h3>
+<p>
+  <!-- Combine name and address into one block, preserving line breaks -->
+  <?= nl2br(htmlspecialchars($name . "\n" . $address)); ?><br>
+  Email: <?= htmlspecialchars($email); ?>
+</p>
+
+<!-- Item list section -->
 <h3>Items</h3>
 <ul>
-    <?php foreach ($items as $item): ?>
-        <li>
-            <?php echo htmlspecialchars($item->product->name); ?>
-            × <?php echo (int)$item->qty; ?>
-            — <?php echo number_format($item->subtotalCents() / 100, 2) . ' €'; ?>
-        </li>
-    <?php endforeach; ?>
+  <?php foreach ($items as $item): ?>
+    <li>
+      <!-- Product name -->
+      <?= htmlspecialchars($item->product->name); ?>
+      <!-- Quantity -->
+      × <?= (int)$item->qty; ?>
+      <!-- Subtotal -->
+      — <?= number_format($item->subtotalCents() / 100, 2) . ' €'; ?>
+    </li>
+  <?php endforeach; ?>
 </ul>
 
-<p><a href="/?url=home/index">Back to Home</a></p>
+<!-- Return link to homepage -->
+<p>
+  <a href="/?url=home/index">Back to Home</a>
+</p>
