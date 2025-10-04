@@ -1,10 +1,14 @@
 <?php
 // View/Product/index.php
+// Variables: $products (Product[])
 ?>
-
-<?php require __DIR__ . '/../layout/header.php'; ?>
-
 <h2>Products</h2>
-<p>This is where products will be listed.</p>
-
-<?php require __DIR__ . '/../layout/footer.php'; ?>
+<ul>
+    <?php foreach ($products as $p): ?>
+        <li>
+            <strong><?php echo htmlspecialchars($p->name); ?></strong>
+            — <?php echo $p->priceFormatted(); ?>
+            — <a href="/?url=product/show/<?php echo urlencode($p->id); ?>">Details</a>
+        </li>
+    <?php endforeach; ?>
+</ul>
