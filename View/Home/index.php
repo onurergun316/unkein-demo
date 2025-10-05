@@ -1,43 +1,41 @@
 <?php
-// -----------------------------------------------------------
 // View/Home/index.php
-// -----------------------------------------------------------
-// PURPOSE:
-//   This is the homepage of the shop. It displays a simple welcome
-//   message and a list of active products with names, prices,
-//   and links to view individual product details.
-//
-// DATA PROVIDED BY CONTROLLER:
-//   $products — an array of Product objects, supplied by HomeController::index()
-//
-// ROLE IN MVC:
-//   - The View component that renders product listings to the browser.
-//   - Gets data from HomeController, which retrieves it via ProductRepository.
-//   - Does not contain any business logic (display only).
-// -----------------------------------------------------------
-
-// Include common layout header
-include __DIR__ . '/../Layout/header.php';
+// Expects: $products (Product[])
+require __DIR__ . '/../layout/header.php';
 ?>
 
-<main>
-    <h1>Welcome</h1>
-    <p>Browse our latest products below:</p>
+<section class="home-hero">
+  <div class="container">
+    <p class="tag">fresh drops</p>
+    <h2 class="headline">Clean basics for everyday</h2>
+    <p class="sub">Minimal pieces, fair prices. Browse the latest picks below.</p>
+    <a class="btn" href="/?url=product/index">Explore all products</a>
+  </div>
+</section>
 
-    <!-- Product list -->
-    <ul>
-        <?php foreach ($products as $product): ?>
-            <li>
-                <?= htmlspecialchars($product->name) ?> –
-                <?= htmlspecialchars($product->priceFormatted()) ?>
-                —
-                <a href="/?url=product/show/<?= urlencode($product->id) ?>">View</a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</main>
+<section class="home-grid container">
+  <?php if (empty($products)): ?>
+    <p class="notice">No products yet.</p>
+  <?php else: ?>
+    <div class="card-grid">
+      <?php foreach (array_slice($products, 0, 4) as $p): ?>
+        <article class="card hover-glow">
+          <div class="thumb">
+            <img src="<?= htmlspecialchars($p->image); ?>" alt="<?= htmlspecialchars($p->name); ?>">
+          </div>
+          <div class="body">
+            <div class="name"><?= htmlspecialchars($p->name); ?></div>
+            <div class="meta">
+              <span class="price"><?= $p->priceFormatted(); ?></span>
+            </div>
+            <div class="actions">
+              <a class="btn secondary" href="/?url=product/show/<?= urlencode($p->id); ?>">View</a>
+            </div>
+          </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
+</section>
 
-<?php
-// Include common layout footer
-include __DIR__ . '/../Layout/footer.php';
-?>
+<?php require __DIR__ . '/../layout/footer.php'; ?>

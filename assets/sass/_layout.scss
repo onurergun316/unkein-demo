@@ -43,3 +43,38 @@ footer {
   background: $panel; border-top: 1px solid #222734; color: $muted;
 }
 footer .inner { padding: 16px 0; }
+
+html, body { height: 100%; }
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  flex: 1 0 auto; 
+}
+
+.site-footer {
+  margin-top: auto; 
+}
+
+/* Cart page layout fix */
+.table-wrap,
+h2.section-title,
+h2,
+.notice,
+p {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.table {
+  margin-top: 12px;
+  width: calc(100% - 64px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
