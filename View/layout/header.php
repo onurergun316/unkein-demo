@@ -1,8 +1,25 @@
 <?php
-// View/layout/header.php
-// Global layout header with modern nav
-
-?><!doctype html>
+// -----------------------------------------------------------------------------
+// File: View/layout/header.php
+// Project: Unkein E-Commerce Platform
+// Purpose: Defines the global HTML <head> and header layout shared by all views.
+//
+// Context:
+//   - Loaded at the start of every page before the <main> section.
+//   - Provides consistent navigation, branding, and metadata across views.
+//
+// Behavior:
+//   - Outputs document structure (<html>, <head>, <body>).
+//   - Renders a responsive header with site logo and main navigation links.
+//   - Navigation links route through MVC via URL parameters (e.g. ?url=cart/index).
+//
+// Styling:
+//   - Visual styles defined in /css/main.css (compiled from SCSS).
+//   - `.site-header` and `.header-row` manage alignment, spacing, and layout.
+//   - `.nav-list` and `.nav-link` styled for hover and active states.
+// -----------------------------------------------------------------------------
+?>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
