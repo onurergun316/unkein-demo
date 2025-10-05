@@ -1,0 +1,24 @@
+.btn {
+  appearance: none;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: #111216;
+  background: #ff6b6b;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.btn.secondary {
+  background: #2a2d36;
+  color: #e6e7ec;
+}
+.btn.ghost {
+  background: transparent;
+  color: #e6e7ec;
+  border: 1px solid rgba(255,255,255,0.12);
+}

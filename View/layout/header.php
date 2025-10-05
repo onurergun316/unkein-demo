@@ -1,19 +1,29 @@
-<!DOCTYPE html>
+<?php
+// View/layout/header.php
+// Global layout header with modern nav
+
+?><!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Unkein Demo Shop</title>
-    <link rel="stylesheet" href="/css/main.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>unkein</title>
+  <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-<header>
-    <nav>
-        <h2>UNKEIN</h2>
-        <ul>
-            <li><a href="/?url=home/index">Home</a></li>
-            <li><a href="/?url=product/index">Products</a></li>
-            <li><a href="/?url=cart/index">Cart</a></li>
-            <li><a href="/?url=checkout/index">Checkout</a></li>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="/?url=home/index">unkein</a>
+
+      <nav class="main-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="/?url=home/index">Home</a></li>
+          <li><a class="nav-link" href="/?url=product/index">Products</a></li>
+          <li><a class="nav-link" href="/?url=cart/index">Cart</a></li>
+          <li><a class="nav-link" href="/?url=checkout/index">Checkout</a></li>
         </ul>
-    </nav>
-</header>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">

@@ -1,0 +1,61 @@
+/* Navigation (header) */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #17181d; // same dark theme you use
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-transform: lowercase; /* requested */
+  color: #eee;
+  text-decoration: none;
+}
+
+.main-nav .nav-list {
+  list-style: none; /* remove bullets */
+  display: flex;          /* horizontal */
+  gap: 28px;              /* evenly spaced */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  position: relative;
+  color: #cfcfd6;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 2px;
+  display: inline-block;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e53935, transparent);
+  opacity: 0;
+  transform: scaleX(.6);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.nav-link:hover {
+  color: #ff6b6b;
+}
+
+.nav-link:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
