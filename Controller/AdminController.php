@@ -1,5 +1,5 @@
 <?php
-// Controller/AdminController.php
+// Controller/AdminController.php 
 declare(strict_types=1);
 
 require_once __DIR__ . '/BaseController.php';
