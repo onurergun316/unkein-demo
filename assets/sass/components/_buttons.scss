@@ -22,3 +22,14 @@
   color: #e6e7ec;
   border: 1px solid rgba(255,255,255,0.12);
 }
+
+.filters .btn.active {
+  background: rgba(244, 107, 104, 0.9);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(244, 107, 104, 0.3);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+.filters .btn:not(.active):hover {
+  filter: brightness(1.15);
+}
