@@ -1,20 +1,10 @@
 <?php
 // -----------------------------------------------------------------------------
 // File: View/layout/footer.php
-// Project: Unkein E-Commerce Platform
-// Purpose: Defines the global footer markup shared across all views.
-//
-// Context:
-//   - Included automatically by BaseController::render() after main content.
-//   - Closes the <main> element started in layout/header.php.
-//
-// Behavior:
-//   - Displays copyright notice with dynamic year.
-//   - Loads site-wide JavaScript (main.js) for lightweight enhancements.
-//
-// Styling:
-//   - Footer styling handled in _cards.scss under `.site-footer` class.
-//   - Uses a centered container for consistent width and spacing.
+// Purpose: Global footer; centered text on all screen sizes.
+// Notes:
+//   - Uses the same small helper styles declared in header.php
+//   - Keeps scripts at the end of the body for better performance.
 // -----------------------------------------------------------------------------
 ?>
   </main>
@@ -25,6 +15,11 @@
     </div>
   </footer>
 
-  <script src="/js/main.js"></script>
+  <!-- JS at the bottom for faster first paint -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Your jQuery UI helpers (toast, filters, menu toggle binder hooks) -->
+  <script src="/js/app.js?v=1"></script>
+  <!-- Vanilla helpers (quantity steppers, etc.) -->
+  <script src="/js/main.js?v=1"></script>
 </body>
 </html>

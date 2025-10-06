@@ -1,4 +1,3 @@
-<?php require __DIR__ . '/../layout/header.php'; ?>
 <?php
 // -----------------------------------------------------------
 // View/Admin/product_form.php
@@ -93,5 +92,3 @@ $imageVal = ($editing && is_object($p) && !empty($p->image)) ? (string)$p->image
     <a class="btn ghost" href="/?url=admin/products">Cancel</a>
   </div>
 </form>
-
-<?php require __DIR__ . '/../layout/footer.php'; ?>

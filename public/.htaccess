@@ -1,7 +1,15 @@
-# public/.htaccess
 Options -Indexes
 
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [QSA,L]
+RewriteBase /
+
+# serve real files/folders as-is
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# otherwise route to index.php
+RewriteRule ^ index.php [L]
+
+# (optional harden prod)
+php_flag display_errors Off
